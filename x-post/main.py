@@ -57,21 +57,21 @@ class InstagramScraper:
             return None
 
 def summarize_for_tweet(caption, max_length=280):
-    """Summarizes a caption using Google's Gemini API for a tweet."""
+    """Summarizes a caption using Google's grok API for a tweet."""
     try:
         print("summarize_for_tweet called")
         print(f"Caption received: {caption}")
         genai.configure(api_key="AIzaSyAIoZdXR3eOu9FxUdGxqOLqc8_E7KRoygI")
-        print("Gemini API configured")
+        print("grok API configured")
 
         model = genai.GenerativeModel('models/gemini-1.5-pro')
-        print("Gemini model loaded")
+        print("grok model loaded")
 
         prompt = f"Summarize this Instagram caption into a tweet (under {max_length} characters):\n{caption}"
-        print(f"Prompt being sent to Gemini: {prompt}")
+        print(f"Prompt being sent to grok: {prompt}")
 
         response = model.generate_content(prompt)
-        print(f"Gemini API response: {response}")
+        print(f"grok API response: {response}")
         tweet_summary = response.text.strip()
 
         if len(tweet_summary) > max_length:
