@@ -153,36 +153,6 @@ def post_tweet_endpoint():
 def index():
     return "Welcome to my Flask app!"
 
-@app.route('/scrape-and-tweet', methods=['GET'])
-def scrape_and_tweet_endpoint():
-    print("scrape_and_tweet_endpoint was called!")
-    try:
-        post_url = "https://www.instagram.com/p/DG_V-Cit_Fp/?img_index=4&igsh=aTlleDhweTAwNTJo"
-        print(f"post_url: {post_url}")
-        scraper = InstagramScraper(post_url)
-        result = scraper.fetch_post_details()
-        print(f"result: {result}")
-
-        if not result:
-            return jsonify({"error": "Failed to fetch Instagram post details."}), 500
-
-        caption = result['caption']
-        print(f"caption: {caption}")
-
-        tweet_text = summarize_for_tweet(caption)
-        print(f"tweet_text: {tweet_text}")
-
-        if not tweet_text:
-            return jsonify({"error": "Failed to summarize caption"}), 500
-
-        if post_to_x(tweet_text):
-            return jsonify({"message": "Tweet posted successfully!"}), 200
-        else:
-            return jsonify({"error": "Failed to post tweet"}), 500
-
-    except Exception as e:
-        logging.exception("Error in /scrape-and-tweet endpoint")
-        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
